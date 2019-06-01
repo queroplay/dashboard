@@ -1,0 +1,41 @@
+{
+    "name": "main",
+    "main": "dist/bundle.js",
+    "scripts": {
+        "build": "webpack --config webpack.config.js",
+        "deploy": "ibmcloud fn action update main dist/bundle.js --kind nodejs:6",
+        "start": "node index.js"
+    },
+    "engines": {
+        "node": "6.*"
+    },
+    "resolutions": {
+        "uglifyjs-webpack-plugin": "1.0.0-rc.0"
+    },
+    "dependencies": {
+        "@cloudant/cloudant": "^3.0.1",
+        "async": "^2.6.1",
+        "bluebird": "^3.5.3",
+        "body-parser": "^1.19.0",
+        "cors": "^2.8.5",
+        "express": "^4.16.4",
+        "express-session": "^1.15.6",
+        "fs": "0.0.1-security",
+        "hh-mm-ss": "^1.2.0",
+        "http": "0.0.0",
+        "https": "^1.0.0",
+        "node-datetime": "^2.1.2",
+        "nodemon": "^1.19.0",
+        "q": "^1.5.1",
+        "querystring": "^0.2.0",
+        "request": "^2.88.0",
+        "sleep": "^6.0.0",
+        "util": "^0.11.1",
+        "util-promisifyall": "^1.0.4",
+        "vcap_services": "^0.6.0",
+        "watson-developer-cloud": "^4.0.1"
+    },
+    "devDependencies": {
+        "webpack": "^3.8.1"
+    }
+}
