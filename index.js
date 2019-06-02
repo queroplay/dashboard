@@ -96,8 +96,8 @@ app.get('/ranking/faculdade/:faculdade', function (req, res) {
     request.then(function (alunos) {
 
         alunos.sort(function (a, b) {
-            if (a.pontuacao > b.pontuacao) return -1;
-            if (a.pontuacao < b.pontuacao) return 1;
+            if (parseFloat(a.pontuacao) > parseFloat(b.pontuacao)) return -1;
+            if (parseFloat(a.pontuacao) < parseFloat(b.pontuacao)) return 1;
             return 0;
         });
 
@@ -105,10 +105,10 @@ app.get('/ranking/faculdade/:faculdade', function (req, res) {
 
         for (let aluno of alunos) {
             listAluno.push({
-                pontuacao: aluno.pontuacao,
+                pontuacao: parseFloat(aluno.pontuacao),
                 nome: aluno.nome,
                 instituicao: aluno.instituicao,
-                semestre: aluno.semestre,
+                semestre: parseInt(aluno.semestre),
                 ra: aluno.ra,
                 curso: aluno.curso
             });
@@ -152,8 +152,8 @@ app.get('/ranking/semestre/aluno/:_id', function (req, res) {
 
 
         listAlunos.sort(function (a, b) {
-            if (a.pontuacao > b.pontuacao) return -1;
-            if (a.pontuacao < b.pontuacao) return 1;
+            if (parseFloat(a.pontuacao) > parseFloat(b.pontuacao)) return -1;
+            if (parseFloat(a.pontuacao) < parseFloat(b.pontuacao)) return 1;
             return 0;
         });
 
@@ -161,7 +161,7 @@ app.get('/ranking/semestre/aluno/:_id', function (req, res) {
 
         for (let aluno of listAlunos) {
             effetiveListAluno.push({
-                pontuacao: aluno.pontuacao,
+                pontuacao: parseFloat(aluno.pontuacao),
                 nome: aluno.nome,
                 instituicao: aluno.instituicao,
                 semestre: aluno.semestre,
