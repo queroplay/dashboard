@@ -3,66 +3,49 @@ let Promise = require('bluebird');
 
 var insert = function (req, params, ddoc) {
     return new Promise(function (resolve, reject) {
-        if (req.user != undefined) {
-            let conn = initConn(params);
-            Promise.promisifyAll(conn);
+        let conn = initConn(params);
+        Promise.promisifyAll(conn);
 
-            conn.then(function (cloudantConnection) {
-                let cloudantDb = cloudantConnection;
+        conn.then(function (cloudantConnection) {
+            let cloudantDb = cloudantConnection;
 
-                let author = req.user.id;
-                ddoc.author = author;
-                insertDocument(cloudantDb, ddoc, resultInsert => {
-                    resolve(resultInsert)
-                });
+            insertDocument(cloudantDb, ddoc, resultInsert => {
+                resolve(resultInsert)
             });
-        } else {
-            console.log("[INSERT] USER PROBLEM: " + JSON.stringify(req.user));
-        }
+        });
     });
 }
 
 var update = function (req, params, ddoc) {
     return new Promise(function (resolve, reject) {
-        if (req.user != undefined) {
-            let conn = initConn(params);
-            Promise.promisifyAll(conn);
+        let conn = initConn(params);
+        Promise.promisifyAll(conn);
 
-            conn.then(function (cloudantConnection) {
-                let cloudantDb = cloudantConnection;
+        conn.then(function (cloudantConnection) {
+            let cloudantDb = cloudantConnection;
 
-                let author = req.user.cn;
-                ddoc.author = author;
-
-                updateDocument(cloudantDb, ddoc, resultInsert => {
-                    resolve(resultInsert)
-                });
+            updateDocument(cloudantDb, ddoc, resultInsert => {
+                resolve(resultInsert)
             });
-        } else {
-            console.log("[INSERT] USER PROBLEM: " + JSON.stringify(req.user));
-        }
+        });
+
     });
 }
 
 var deleteDoc = function (req, params, ddoc) {
     return new Promise(function (resolve, reject) {
-        if (req.user != undefined) {
-            let conn = initConn(params);
-            Promise.promisifyAll(conn);
 
-            conn.then(function (cloudantConnection) {
-                let cloudantDb = cloudantConnection;
+        let conn = initConn(params);
+        Promise.promisifyAll(conn);
 
-                let author = req.user.id;
-                ddoc.author = author;
+        conn.then(function (cloudantConnection) {
+            let cloudantDb = cloudantConnection;
 
-                deleteDocument(cloudantDb, ddoc, resultInsert => {
-                    resolve(resultInsert)
-                });
+            deleteDocument(cloudantDb, ddoc, resultInsert => {
+                resolve(resultInsert)
             });
-        } else {
-            console.log("[DELETE] DOCUMENT PROBLEM: " + JSON.stringify(req.user));
-        }
+        });
+
     });
 }
 
@@ -226,7 +209,6 @@ var initConn = function (message) {
 };
 
 var getCloudantAccount = function (params) {
-
     let Cloudant = require('@cloudant/cloudant');
     let cloudant;
 

@@ -3,6 +3,9 @@ const app = express();
 const bodyParser = require('body-parser');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+const xlsxj = require("xlsx-to-json");
+const Promise = require('bluebird');
+let Cloudant = require('@cloudant/cloudant');
 
 const connFactory = require("./connection/connFactory.js");
 
@@ -15,6 +18,163 @@ let params = {
     "dbname": "hackathon-quero",
     "password": "e373c010bcb53c3ea89a59f7fa2642789e7bfe3128bab1c3e2762b713ab04641"
 };
+
+// generateListAlunos().then(result => {
+//     let listInsert = [];
+//     for (let item of result) {
+//         if (item._id != undefined && item._id != "") {
+//             listInsert.push(item);
+//         }
+//     }
+
+//     let count = 0;
+
+//     for (let item of listInsert) {
+//         setTimeout(function () {
+//             connFactory.insert({}, params, item);
+//         }, count);
+//         count += 500;
+//     }
+
+
+// });
+
+// function sleep(time) {
+//     return new Promise((resolve) => setTimeout(resolve, time));
+// }
+
+
+
+// function generateListAlunos() {
+//     return new Promise(function (resolve, reject) {
+//         try {
+//             xlsxj({
+//                 input: "assets/import.xlsx",
+//                 output: "output.json"
+//             }, function (err, result) {
+//                 if (err) {
+//                     console.log(err);
+//                     resolve([]);
+//                 } else {
+//                     resolve(result);
+//                 }
+//             });
+//         } catch (e) {
+//             console.log(e);
+//             resolve([]);
+//         }
+//     });
+// }
+
+
+app.get('/aluno/:_id', function (req, res) {
+    console.log("GET /aluno/" + req.params._id);
+
+    let query = {
+        selector: {
+            _id: (req.params._id)
+        }
+    };
+
+    let request = connFactory.getDocument(params, query)
+    request.then(function (result) {
+        res.send(result);
+    })
+});
+
+app.get('/ranking/faculdade/:faculdade', function (req, res) {
+    console.log("GET /ranking/faculdade" + req.params.faculdade);
+
+    let query = {
+        selector: {
+            type: "ALUNO",
+            instituicao: req.params.faculdade
+        }
+    };
+
+    let request = connFactory.getDocument(params, query)
+    request.then(function (alunos) {
+
+        alunos.sort(function (a, b) {
+            if (a.pontuacao > b.pontuacao) return -1;
+            if (a.pontuacao < b.pontuacao) return 1;
+            return 0;
+        });
+
+        let listAluno = [];
+
+        for (let aluno of alunos) {
+            listAluno.push({
+                pontuacao: aluno.pontuacao,
+                nome: aluno.nome,
+                instituicao: aluno.instituicao,
+                semestre: aluno.semestre,
+                ra: aluno.ra,
+                curso: aluno.curso
+            });
+        }
+
+        res.send(listAluno);
+    })
+});
+
+app.get('/ranking/semestre/aluno/:_id', function (req, res) {
+    console.log("GET /semestre/aluno/_id" + req.params._id);
+
+    let query = {
+        selector: {
+            type: "ALUNO",
+        }
+    };
+
+    let request = connFactory.getDocument(params, query)
+    request.then(function (alunos) {
+        let alunoIndex = {};
+        let semestre = 0;
+        let instituicao = "";
+
+        for (let aluno of alunos) {
+            if (aluno._id == req.params._id) {
+                alunoIndex = aluno;
+                semestre = aluno.semestre;
+                instituicao = aluno.instituicao;
+            }
+        }
+
+        let listAlunos = [];
+        for (let aluno of alunos) {
+            if (aluno.semestre == semestre) {
+                if (aluno.instituicao == instituicao) {
+                    listAlunos.push(aluno);
+                }
+            }
+        }
+
+
+        listAlunos.sort(function (a, b) {
+            if (a.pontuacao > b.pontuacao) return -1;
+            if (a.pontuacao < b.pontuacao) return 1;
+            return 0;
+        });
+
+        let effetiveListAluno = [];
+
+        for (let aluno of listAlunos) {
+            effetiveListAluno.push({
+                pontuacao: aluno.pontuacao,
+                nome: aluno.nome,
+                instituicao: aluno.instituicao,
+                semestre: aluno.semestre,
+                ra: aluno.ra
+            });
+        }
+
+
+
+        res.send(effetiveListAluno);
+    })
+});
+
 
 app.get('/info', function (req, res) {
     console.log("GET /info");
@@ -208,9 +368,9 @@ function calcEnade(nota) {
 
 }
 
-app.use(express.static(__dirname + '/front/'));
+app.use(express.static(__dirname + '/front/queroPlay/dist/queroPlay/'));
 
-var port = 3000;
+var port = 8080;
 app.listen(port, function () {
     console.log("To view your app, open this link in your browser: http://localhost:" + port);
 });

@@ -13,7 +13,7 @@
         "uglifyjs-webpack-plugin": "1.0.0-rc.0"
     },
     "dependencies": {
-        "@cloudant/cloudant": "^3.0.1",
+        "@cloudant/cloudant": "^3.0.2",
         "async": "^2.6.1",
         "bluebird": "^3.5.3",
         "body-parser": "^1.19.0",
@@ -25,15 +25,14 @@
         "http": "0.0.0",
         "https": "^1.0.0",
         "node-datetime": "^2.1.2",
-        "nodemon": "^1.19.0",
         "q": "^1.5.1",
         "querystring": "^0.2.0",
         "request": "^2.88.0",
-        "sleep": "^6.0.0",
         "util": "^0.11.1",
         "util-promisifyall": "^1.0.4",
         "vcap_services": "^0.6.0",
-        "watson-developer-cloud": "^4.0.1"
+        "watson-developer-cloud": "^4.0.1",
+        "xlsx-to-json": "^0.3.0"
     },
     "devDependencies": {
         "webpack": "^3.8.1"

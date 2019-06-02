@@ -1,67 +1,64 @@
 <script src="./js/uikit.min.js"></script>
 <script src="./js/uikit-icons.min.js"></script>
 
-<div class="uk-card uk-card-default uk-width-1@m">
-    <div class="uk-card-header">
-        <div class="uk-grid-small uk-flex-middle" uk-grid>
-            <div class="uk-width-auto">
-                <img class="uk-border-circle" width="80" height="80"
-                    src="https://d2my3dgdogz33p.cloudfront.net/assets/logos/logo-querobolsa-og-d9113c5d813a2b09593991c0094f80a4760ea5c6dd744129bb534f1586c0ed20.png">
+
+
+<div class="uk-child-width-1@s" *ngFor="let itemInfo of info">
+    <div>
+        <div class="uk-card uk-card-default">
+            <div class="uk-card-header">
+                <div class="uk-grid-small uk-flex-middle" uk-grid>
+                    <div class="uk-width-auto">
+                        <img class="uk-border-circle" width="80" height="80"
+                            src="https://d2my3dgdogz33p.cloudfront.net/assets/logos/logo-querobolsa-og-d9113c5d813a2b09593991c0094f80a4760ea5c6dd744129bb534f1586c0ed20.png">
+                    </div>
+                    <div class="uk-width-expand">
+                        <h4 class="uk-card-title uk-margin-remove-bottom"> {{itemInfo.curso}} - até
+                            R${{itemInfo.preco}},00
+                        </h4>
+                        <h5 class="uk-text-meta uk-margin-remove-top"><time
+                                datetime="2016-04-01T19:00">{{itemInfo.estado}} - {{itemInfo.cidade}} -
+                                {{itemInfo.regiao}}</time></h5>
+                    </div>
+                </div>
             </div>
-            <div class="uk-width-expand">
-                <h2 class="uk-card-title uk-margin-remove-bottom">Análise e Desenvolvimento de Sistemas - até R$500,00
-                </h2>
-                <p class="uk-text-meta uk-margin-remove-top"><time datetime="2016-04-01T19:00">SP - São Paulo -
-                        Sul</time></p>
+            <div class="uk-card-body">
+                <h4>Semestre: {{itemInfo.semestre}}</h4>
+                <table class="uk-table uk-table-striped uk-table-responsive">
+                    <caption></caption>
+                    <thead>
+                        <tr>
+                            <th><b>Faculdade</b></th>
+                            <th><b>IDD</b></th>
+                            <th><b>Simulado Enade</b></th>
+                            <th><b>Simulado Enade (Efetivo)</b></th>
+                            <th><b>Infraestrutura</b></th>
+                            <th><b>ODP</b></th>
+                            <th><b>Ampliacao</b></th>
+                            <th><b>CPC (Efetivo)</b></th>
+                            <th><b>CPC</b></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let faculdade of itemInfo.faculdades">
+                            <td>{{faculdade.faculdade}}</td>
+                            <td>{{faculdade.notaIDD}}</td>
+                            <td>{{faculdade.notaSimuladoEnade}}</td>
+                            <td>{{faculdade.notaSimuladoEnadeEfetiva}}</td>
+                            <td>{{faculdade.notaInfraestrutura}}</td>
+                            <td>{{faculdade.notaODP}}</td>
+                            <td>{{faculdade.notaAmpliacao}}</td>
+                            <td>{{faculdade.cpcEfetivo}}</td>
+                            <td>{{faculdade.cpc}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="uk-card-footer">
+                <a href="#" class="uk-button uk-button-text"></a>
             </div>
         </div>
     </div>
-    <div class="uk-card-body">
-        <h3>Semestre: 2</h3>
-        <table class="uk-table uk-table-striped uk-table-responsive">
-            <caption></caption>
-            <thead>
-                <tr>
-                    <th>Faculdade</th>
-                    <th>IDD</th>
-                    <th>Simulado Enade</th>
-                    <th>Simulado Enade (Efetivo)</th>
-                    <th>Infraestrutura</th>
-                    <th>ODP</th>
-                    <th>Ampliacao</th>
-                    <th>CPC (Efetivo)</th>
-                    <th>CPC</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <th>UNASP</th>
-                    <td>1</td>
-                    <td>3</td>
-                    <td>4</td>
-                    <td>5</td>
-                    <td>1</td>
-                    <td>4</td>
-                    <td>2</td>
-                    <td>5</td>
-                </tr>
-                <tr>
-                    <th>IMPACTA</th>
-                    <td>1</td>
-                    <td>3</td>
-                    <td>4</td>
-                    <td>5</td>
-                    <td>1</td>
-                    <td>4</td>
-                    <td>2</td>
-                    <td>5</td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-    <div class="uk-card-footer">
-        <a href="#" class="uk-button uk-button-text"></a>
-    </div>
+    <br />
+    <br />
 </div>
-
-

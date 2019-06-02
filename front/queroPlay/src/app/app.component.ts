@@ -10,6 +10,8 @@ import { InfoProvider } from 'src/services/info.service';
 export class AppComponent implements OnInit{
   title = 'queroPlay';
 
+  info: any;
+
   constructor(
     public infoProvider: InfoProvider,
   ) {}
@@ -17,7 +19,8 @@ export class AppComponent implements OnInit{
   public ngOnInit() {
     this.infoProvider.getinfos()
     .subscribe(res => {
-      console.log(res);
+      this.info = res;
+      console.log(this.info);
     })
   }
   
